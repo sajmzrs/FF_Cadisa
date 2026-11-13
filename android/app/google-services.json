@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762449145183",
+    "project_id": "cadisa-f0rzvq",
+    "storage_bucket": "cadisa-f0rzvq.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762449145183:android:4287bada2d172100289aea",
+        "android_client_info": {
+          "package_name": "com.mycompany.cadisa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6nwWekaBkRQpRUWfV_SslEVCrNhVEhDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
