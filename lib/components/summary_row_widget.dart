@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'summary_row_model.dart';
 export 'summary_row_model.dart';
 
@@ -51,7 +54,7 @@ class _SummaryRowWidgetState extends State<SummaryRowWidget> {
       children: [
         Text(
           valueOrDefault<String>(
-            widget.label,
+            widget!.label,
             'Servicio',
           ),
           style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -72,7 +75,7 @@ class _SummaryRowWidgetState extends State<SummaryRowWidget> {
           flex: 1,
           child: Text(
             valueOrDefault<String>(
-              widget.value,
+              widget!.value,
               'Lavado de alfombras',
             ),
             textAlign: TextAlign.end,

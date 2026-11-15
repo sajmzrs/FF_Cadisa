@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'notification_item_model.dart';
 export 'notification_item_model.dart';
 
@@ -60,7 +63,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
           valueOrDefault<bool>(
-            widget.unread,
+            widget!.unread,
             true,
           )
               ? Colors.white
@@ -87,13 +90,13 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                 height: 40.0,
                 decoration: BoxDecoration(
                   color: valueOrDefault<Color>(
-                    widget.iconColor,
+                    widget!.iconColor,
                     FlutterFlowTheme.of(context).primary,
                   ),
                   borderRadius: BorderRadius.circular(9999.0),
                   shape: BoxShape.rectangle,
                 ),
-                child: widget.icon!,
+                child: widget!.icon!,
               ),
               Expanded(
                 flex: 1,
@@ -111,7 +114,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                           flex: 1,
                           child: Text(
                             valueOrDefault<String>(
-                              widget.title,
+                              widget!.title,
                               'Tu cotización está lista',
                             ),
                             maxLines: 1,
@@ -142,7 +145,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                           ),
                         ),
                         if (valueOrDefault<bool>(
-                          widget.unread,
+                          widget!.unread,
                           true,
                         ))
                           Container(
@@ -158,7 +161,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.body,
+                        widget!.body,
                         'SOL-1042 · Lavado de alfombras por ₡63 000. Revisala y confirmá.',
                       ),
                       maxLines: 3,
@@ -186,7 +189,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.time,
+                        widget!.time,
                         'Hace 2 h',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(

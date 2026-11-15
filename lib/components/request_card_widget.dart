@@ -1,8 +1,11 @@
 import '/components/status_pill_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'request_card_model.dart';
 export 'request_card_model.dart';
 
@@ -85,7 +88,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                 children: [
                   Text(
                     valueOrDefault<String>(
-                      widget.code,
+                      widget!.code,
                       'SOL-1042',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -114,7 +117,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                     child: StatusPillWidget(
                       bgColor: Color(0xFFE6EEF8),
                       label: valueOrDefault<String>(
-                        widget.status,
+                        widget!.status,
                         'Cotización lista',
                       ),
                       textColor: Color(0xFF2D6BB4),
@@ -124,7 +127,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
               ),
               Text(
                 valueOrDefault<String>(
-                  widget.title,
+                  widget!.title,
                   'Lavado de alfombras',
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -159,7 +162,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       ),
                       Text(
                         valueOrDefault<String>(
-                          widget.date,
+                          widget!.date,
                           'sáb 17 oct',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -197,7 +200,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       ),
                       Text(
                         valueOrDefault<String>(
-                          widget.location,
+                          widget!.location,
                           'Casa · Curridabat',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(

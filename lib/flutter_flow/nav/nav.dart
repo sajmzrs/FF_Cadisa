@@ -1,12 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 import '/index.dart';
 
@@ -76,13 +83,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? () : LoginWidget(),
+          appStateNotifier.loggedIn ? InicioWidget() : LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? () : LoginWidget(),
+              appStateNotifier.loggedIn ? InicioWidget() : LoginWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -163,6 +170,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: DetalleSolicitudWidget.routeName,
           path: DetalleSolicitudWidget.routePath,
           builder: (context, params) => DetalleSolicitudWidget(),
+        ),
+        FFRoute(
+          name: RecuperarContrasenaWidget.routeName,
+          path: RecuperarContrasenaWidget.routePath,
+          builder: (context, params) => RecuperarContrasenaWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -281,6 +293,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    List<String>? collectionNamePath,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -298,6 +311,7 @@ class FFParameters {
       param,
       type,
       isList,
+      collectionNamePath: collectionNamePath,
     );
   }
 }

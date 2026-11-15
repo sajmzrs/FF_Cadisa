@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'kpi_card_model.dart';
 export 'kpi_card_model.dart';
 
@@ -68,7 +71,7 @@ class _KpiCardWidgetState extends State<KpiCardWidget> {
               height: 4.0,
               decoration: BoxDecoration(
                 color: valueOrDefault<Color>(
-                  widget.accentColor,
+                  widget!.accentColor,
                   FlutterFlowTheme.of(context).tertiary,
                 ),
                 shape: BoxShape.rectangle,
@@ -83,7 +86,7 @@ class _KpiCardWidgetState extends State<KpiCardWidget> {
                 children: [
                   Text(
                     valueOrDefault<String>(
-                      widget.value,
+                      widget!.value,
                       '3',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -104,7 +107,7 @@ class _KpiCardWidgetState extends State<KpiCardWidget> {
                   ),
                   Text(
                     valueOrDefault<String>(
-                      widget.label,
+                      widget!.label,
                       'Por cotizar',
                     ),
                     maxLines: 2,

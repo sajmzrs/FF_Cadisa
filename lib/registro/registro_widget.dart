@@ -1,10 +1,16 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/components/cadisa_input2_widget.dart';
 import '/components/toggle_option_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' hide Type;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'registro_model.dart';
 export 'registro_model.dart';
 
@@ -61,37 +67,47 @@ class _RegistroWidgetState extends State<RegistroWidget> {
                   padding:
                       EdgeInsetsDirectional.fromSTEB(20.0, 16.0, 20.0, 16.0),
                   child: Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 20.0,
-                        ),
-                        Text(
-                          'Crear cuenta',
-                          style: FlutterFlowTheme.of(context)
-                              .titleLarge
-                              .override(
-                                font: GoogleFonts.rosario(
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.safePop();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 20.0,
+                          ),
+                          Text(
+                            'Crear cuenta',
+                            style: FlutterFlowTheme.of(context)
+                                .titleLarge
+                                .override(
+                                  font: GoogleFonts.rosario(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .fontStyle,
+                                  ),
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  letterSpacing: 0.0,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .titleLarge
                                       .fontStyle,
+                                  lineHeight: 1.4,
                                 ),
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .titleLarge
-                                    .fontStyle,
-                                lineHeight: 1.4,
-                              ),
-                        ),
-                      ].divide(SizedBox(width: 16.0)),
+                          ),
+                        ].divide(SizedBox(width: 16.0)),
+                      ),
                     ),
                   ),
                 ),
@@ -148,33 +164,53 @@ class _RegistroWidgetState extends State<RegistroWidget> {
                               children: [
                                 Expanded(
                                   flex: 1,
-                                  child: wrapWithModel(
-                                    model: _model.toggleOptionModel1,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: ToggleOptionWidget(
-                                      isSelected: true,
-                                      iconName: Icon(
-                                        Icons.add,
-                                        color: Colors.transparent,
-                                        size: 0.0,
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      _model.tipo = 'fisica';
+                                      safeSetState(() {});
+                                    },
+                                    child: wrapWithModel(
+                                      model: _model.toggleOptionModel1,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ToggleOptionWidget(
+                                        isSelected: !(_model.tipo == 'empresa'),
+                                        iconName: Icon(
+                                          Icons.add,
+                                          color: Colors.transparent,
+                                          size: 0.0,
+                                        ),
+                                        label: 'Persona física',
                                       ),
-                                      label: 'Persona física',
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: wrapWithModel(
-                                    model: _model.toggleOptionModel2,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: ToggleOptionWidget(
-                                      isSelected: false,
-                                      iconName: Icon(
-                                        Icons.add,
-                                        color: Colors.transparent,
-                                        size: 0.0,
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      _model.tipo = 'empresa';
+                                      safeSetState(() {});
+                                    },
+                                    child: wrapWithModel(
+                                      model: _model.toggleOptionModel2,
+                                      updateCallback: () => safeSetState(() {}),
+                                      child: ToggleOptionWidget(
+                                        isSelected: _model.tipo == 'empresa',
+                                        iconName: Icon(
+                                          Icons.add,
+                                          color: Colors.transparent,
+                                          size: 0.0,
+                                        ),
+                                        label: 'Empresa',
                                       ),
-                                      label: 'Empresa',
                                     ),
                                   ),
                                 ),
@@ -278,10 +314,38 @@ class _RegistroWidgetState extends State<RegistroWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(
-                                  Icons.check_box_rounded,
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  size: 24.0,
+                                Theme(
+                                  data: ThemeData(
+                                    checkboxTheme: CheckboxThemeData(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                      ),
+                                    ),
+                                    unselectedWidgetColor:
+                                        FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                  ),
+                                  child: Checkbox(
+                                    value: _model.termsCheckboxValue ??= false,
+                                    onChanged: (newValue) async {
+                                      safeSetState(() => _model
+                                          .termsCheckboxValue = newValue!);
+                                    },
+                                    side: (FlutterFlowTheme.of(context)
+                                                .secondaryText !=
+                                            null)
+                                        ? BorderSide(
+                                            width: 2,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText!,
+                                          )
+                                        : null,
+                                    activeColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                    checkColor:
+                                        FlutterFlowTheme.of(context).info,
+                                  ),
                                 ),
                                 Expanded(
                                   flex: 1,
@@ -328,7 +392,205 @@ class _RegistroWidgetState extends State<RegistroWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    context.pushNamed(InicioWidget.routeName);
+                                    if (((_model.cadisaInputModel1
+                                                    .textFieldTextController?.text ??
+                                                "")
+                                            .trim()
+                                            .isEmpty ||
+                                        (_model.cadisaInputModel2.textFieldTextController?.text ??
+                                                "")
+                                            .trim()
+                                            .isEmpty ||
+                                        (_model.cadisaInputModel3
+                                                    .textFieldTextController?.text ??
+                                                "")
+                                            .trim()
+                                            .isEmpty ||
+                                        (_model
+                                                    .cadisaInputModel4
+                                                    .textFieldTextController
+                                                    ?.text ??
+                                                "")
+                                            .trim()
+                                            .isEmpty ||
+                                        (_model
+                                                    .cadisaInputModel5
+                                                    .passwordFieldTextController
+                                                    ?.text ??
+                                                "")
+                                            .isEmpty)!) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Completá todos los campos',
+                                            style: TextStyle(),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                        ),
+                                      );
+                                    } else {
+                                      if ((!RegExp(r"^\d{8}$").hasMatch((_model
+                                                  .cadisaInputModel3
+                                                  .textFieldTextController
+                                                  ?.text ??
+                                              "")
+                                          .trim()))!) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'El teléfono debe tener exactamente 8 dígitos',
+                                              style: TextStyle(),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                          ),
+                                        );
+                                      } else {
+                                        if ((!RegExp(
+                                                r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+                                            .hasMatch((_model
+                                                        .cadisaInputModel4
+                                                        .textFieldTextController
+                                                        ?.text ??
+                                                    "")
+                                                .trim()))!) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Ingresá un correo electrónico válido',
+                                                style: TextStyle(),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                            ),
+                                          );
+                                        } else {
+                                          if ((((_model
+                                                              .cadisaInputModel5
+                                                              .passwordFieldTextController
+                                                              ?.text ??
+                                                          "")
+                                                      .length <
+                                                  8) ||
+                                              !RegExp(r"[A-Z]").hasMatch(_model
+                                                      .cadisaInputModel5
+                                                      .passwordFieldTextController
+                                                      ?.text ??
+                                                  "") ||
+                                              !RegExp(r"[0-9]").hasMatch(_model
+                                                      .cadisaInputModel5
+                                                      .passwordFieldTextController
+                                                      ?.text ??
+                                                  ""))!) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número',
+                                                  style: TextStyle(),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                              ),
+                                            );
+                                          } else {
+                                            if (!_model.termsCheckboxValue!) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Debés aceptar los términos y condiciones',
+                                                    style: TextStyle(),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                ),
+                                              );
+                                            } else {
+                                              GoRouter.of(context)
+                                                  .prepareAuthEvent();
+                                              if ((_model
+                                                          .cadisaInputModel5
+                                                          .passwordFieldTextController
+                                                          ?.text ??
+                                                      "")! !=
+                                                  (_model
+                                                          .cadisaInputModel5
+                                                          .passwordFieldTextController
+                                                          ?.text ??
+                                                      "")!) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Passwords don\'t match!',
+                                                    ),
+                                                  ),
+                                                );
+                                                return;
+                                              }
+
+                                              final user = await authManager
+                                                  .createAccountWithEmail(
+                                                context,
+                                                ((_model
+                                                            .cadisaInputModel4
+                                                            .textFieldTextController
+                                                            ?.text ??
+                                                        "")
+                                                    .trim())!,
+                                                (_model
+                                                        .cadisaInputModel5
+                                                        .passwordFieldTextController
+                                                        ?.text ??
+                                                    "")!,
+                                              );
+                                              if (user == null) {
+                                                return;
+                                              }
+
+                                              await currentUserReference!
+                                                  .update(createUsersRecordData(
+                                                displayName: (_model
+                                                            .cadisaInputModel1
+                                                            .textFieldTextController
+                                                            ?.text ??
+                                                        "")
+                                                    .trim(),
+                                                cedula: (_model
+                                                            .cadisaInputModel2
+                                                            .textFieldTextController
+                                                            ?.text ??
+                                                        "")
+                                                    .trim(),
+                                                phoneNumber: (_model
+                                                            .cadisaInputModel3
+                                                            .textFieldTextController
+                                                            ?.text ??
+                                                        "")
+                                                    .trim(),
+                                                email: (_model
+                                                            .cadisaInputModel4
+                                                            .textFieldTextController
+                                                            ?.text ??
+                                                        "")
+                                                    .trim(),
+                                                tipo: _model.tipo,
+                                                rol: 'cliente',
+                                              ));
+
+                                              context.pushNamedAuth(
+                                                  InicioWidget.routeName,
+                                                  context.mounted);
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
                                   },
                                   child: Container(
                                     height: 52.0,

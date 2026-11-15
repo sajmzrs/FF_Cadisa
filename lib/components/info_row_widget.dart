@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'info_row_model.dart';
 export 'info_row_model.dart';
 
@@ -68,7 +71,7 @@ class _InfoRowWidgetState extends State<InfoRowWidget> {
                 shape: BoxShape.rectangle,
               ),
               alignment: AlignmentDirectional(0.0, 0.0),
-              child: widget.icon!,
+              child: widget!.icon!,
             ),
             Expanded(
               flex: 1,
@@ -79,7 +82,7 @@ class _InfoRowWidgetState extends State<InfoRowWidget> {
                 children: [
                   Text(
                     valueOrDefault<String>(
-                      widget.label,
+                      widget!.label,
                       'Inmueble',
                     ),
                     style: FlutterFlowTheme.of(context).labelSmall.override(
@@ -103,7 +106,7 @@ class _InfoRowWidgetState extends State<InfoRowWidget> {
                   ),
                   Text(
                     valueOrDefault<String>(
-                      widget.value,
+                      widget!.value,
                       'Residencial · 35 m²',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -128,7 +131,7 @@ class _InfoRowWidgetState extends State<InfoRowWidget> {
         ),
         if (valueOrDefault<bool>(
           valueOrDefault<bool>(
-            widget.last,
+            widget!.last,
             false,
           )
               ? false

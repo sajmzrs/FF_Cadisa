@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'rating_chip_model.dart';
 export 'rating_chip_model.dart';
 
@@ -48,7 +51,7 @@ class _RatingChipWidgetState extends State<RatingChipWidget> {
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
           valueOrDefault<bool>(
-            widget.selected,
+            widget!.selected,
             true,
           )
               ? Color(0xFFEFF4DD)
@@ -60,7 +63,7 @@ class _RatingChipWidgetState extends State<RatingChipWidget> {
         border: Border.all(
           color: valueOrDefault<Color>(
             valueOrDefault<bool>(
-              widget.selected,
+              widget!.selected,
               true,
             )
                 ? FlutterFlowTheme.of(context).secondary
@@ -79,7 +82,7 @@ class _RatingChipWidgetState extends State<RatingChipWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (valueOrDefault<bool>(
-                widget.selected,
+                widget!.selected,
                 true,
               ))
                 Icon(
@@ -89,7 +92,7 @@ class _RatingChipWidgetState extends State<RatingChipWidget> {
                 ),
               Text(
                 valueOrDefault<String>(
-                  widget.label,
+                  widget!.label,
                   'Puntualidad',
                 ),
                 style: FlutterFlowTheme.of(context).labelLarge.override(
@@ -101,7 +104,7 @@ class _RatingChipWidgetState extends State<RatingChipWidget> {
                       ),
                       color: valueOrDefault<Color>(
                         valueOrDefault<bool>(
-                          widget.selected,
+                          widget!.selected,
                           true,
                         )
                             ? FlutterFlowTheme.of(context).primaryText

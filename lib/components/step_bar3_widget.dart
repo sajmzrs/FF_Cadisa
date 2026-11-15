@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'step_bar3_model.dart';
 export 'step_bar3_model.dart';
 
@@ -54,7 +57,7 @@ class _StepBar3WidgetState extends State<StepBar3Widget> {
           decoration: BoxDecoration(
             color: valueOrDefault<Color>(
               valueOrDefault<bool>(
-                widget.active,
+                widget!.active,
                 true,
               )
                   ? FlutterFlowTheme.of(context).secondary
@@ -67,7 +70,7 @@ class _StepBar3WidgetState extends State<StepBar3Widget> {
         ),
         Text(
           valueOrDefault<String>(
-            widget.label,
+            widget!.label,
             'Servicio',
           ),
           style: FlutterFlowTheme.of(context).labelSmall.override(
@@ -77,7 +80,7 @@ class _StepBar3WidgetState extends State<StepBar3Widget> {
                 ),
                 color: valueOrDefault<Color>(
                   valueOrDefault<bool>(
-                    widget.active,
+                    widget!.active,
                     true,
                   )
                       ? FlutterFlowTheme.of(context).primaryText
