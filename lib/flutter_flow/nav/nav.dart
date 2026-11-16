@@ -136,7 +136,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SolicitudEnviadaWidget.routeName,
           path: SolicitudEnviadaWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => SolicitudEnviadaWidget(),
+          builder: (context, params) => SolicitudEnviadaWidget(
+            codigo: params.getParam(
+              'codigo',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: SolicitudesWidget.routeName,

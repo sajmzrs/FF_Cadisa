@@ -54,6 +54,38 @@ service cloud.firestore {
         && franjaDisponible(datos);
     }
 
+    function cotizacionValida(antes, despues) {
+      return antes.estado == 'En revisión'
+        && despues.estado == 'Cotización lista'
+        && despues.diff(antes).affectedKeys().hasOnly([
+          'estado', 'montoSinIva', 'iva', 'total', 'notaAdmin', 'cotizadaEn', 'venceEn'
+        ])
+        && despues.montoSinIva is int && despues.montoSinIva > 0
+        && despues.montoSinIva <= 100000000
+        && despues.iva is int && despues.iva >= 0
+        && despues.iva * 100 - despues.montoSinIva * 13 >= -49
+        && despues.iva * 100 - despues.montoSinIva * 13 <= 50
+        && despues.total == despues.montoSinIva + despues.iva
+        && despues.notaAdmin is string && despues.notaAdmin.size() <= 1200
+        && despues.cotizadaEn == request.time
+        && despues.venceEn is timestamp
+        && despues.venceEn > request.time
+        && despues.venceEn <= request.time + duration.value(30, 'd');
+    }
+
+    function respuestaValida(antes, despues) {
+      return antes.estado == 'Cotización lista'
+        && antes.venceEn > request.time
+        && despues.respondidaEn == request.time
+        && despues.diff(antes).affectedKeys().hasOnly([
+          'estado', 'respondidaEn', 'motivoRechazo'
+        ])
+        && ((despues.estado == 'Confirmada' && !('motivoRechazo' in despues))
+          || (despues.estado == 'Cancelada'
+            && despues.get('motivoRechazo', '') is string
+            && despues.get('motivoRechazo', '').size() <= 500));
+    }
+
     function perfilValido(datos) {
       return datos.uid is string
         && datos.get('email', '') is string
@@ -98,6 +130,10 @@ service cloud.firestore {
       allow create: if solicitudPropia(request.resource.data)
         && solicitudNuevaValida(request.resource.data, id);
       allow read: if solicitudPropia(resource.data) || esAdministrador();
+      allow update: if (esAdministrador()
+          && cotizacionValida(resource.data, request.resource.data))
+        || (solicitudPropia(resource.data)
+          && respuestaValida(resource.data, request.resource.data));
     }
   }
 }

@@ -130,3 +130,61 @@ test('impide guardar un formulario incompleto o un código distinto al documento
   await assertFails(crearSolicitud(bd, id, { codigo: 'SOL-1047' }));
   await assertFails(crearSolicitud(bd, id, { creadaEn: enDias(-1) }));
 });
+
+const cotizacion = (cambios = {}) => ({
+  estado: 'Cotización lista',
+  montoSinIva: 50,
+  iva: 7,
+  total: 57,
+  notaAdmin: '',
+  cotizadaEn: serverTimestamp(),
+  venceEn: enDias(7),
+  ...cambios,
+});
+
+test('solo un administrador puede cotizar con IVA correcto y conservar los datos del cliente', async () => {
+  const cliente = db('cliente');
+  const id = 'solicitud00000000005';
+  const ruta = `solicitudes/${id}`;
+  const admin = doc(db('admin'), ruta);
+  await assertSucceeds(crearSolicitud(cliente, id));
+  await assertFails(updateDoc(doc(cliente, ruta), cotizacion()));
+  await assertFails(updateDoc(admin, cotizacion({ iva: 6, total: 56 })));
+  await assertFails(updateDoc(admin, cotizacion({ total: 58 })));
+  await assertFails(updateDoc(admin, cotizacion({ venceEn: enDias(-1) })));
+  await assertFails(updateDoc(admin, cotizacion({ direccion: 'Otra dirección' })));
+  await assertSucceeds(updateDoc(admin, cotizacion()));
+  await assertFails(updateDoc(admin, cotizacion({ notaAdmin: 'Cambiar después' })));
+  await assertSucceeds(getDoc(doc(cliente, ruta)));
+});
+
+test('solo el dueño acepta una cotización vigente sin alterar su precio', async () => {
+  const cliente = db('cliente');
+  const id = 'solicitud00000000006';
+  const ruta = `solicitudes/${id}`;
+  const referencia = doc(cliente, ruta);
+  const acepta = { estado: 'Confirmada', respondidaEn: serverTimestamp() };
+  await assertSucceeds(crearSolicitud(cliente, id));
+  await assertFails(updateDoc(referencia, acepta));
+  await assertSucceeds(updateDoc(doc(db('admin'), ruta), cotizacion()));
+  await assertFails(updateDoc(doc(db('otro'), ruta), acepta));
+  await assertFails(updateDoc(referencia, { ...acepta, total: 1 }));
+  await assertSucceeds(updateDoc(referencia, acepta));
+  await assertFails(updateDoc(referencia, { ...acepta, estado: 'Cancelada' }));
+});
+
+test('permite rechazar con motivo y bloquea responder una cotización vencida', async () => {
+  const cliente = db('cliente');
+  const id = 'solicitud00000000007';
+  const ruta = `solicitudes/${id}`;
+  const rechaza = { estado: 'Cancelada', motivoRechazo: 'Cambio de planes', respondidaEn: serverTimestamp() };
+  await assertSucceeds(crearSolicitud(cliente, id));
+  await assertSucceeds(updateDoc(doc(db('admin'), ruta), cotizacion()));
+  await assertSucceeds(updateDoc(doc(cliente, ruta), rechaza));
+  const vencida = 'solicitudes/solicitud00000000008';
+  await entorno.withSecurityRulesDisabled(async (contexto) => {
+    const bd = contexto.firestore();
+    await setDoc(doc(bd, vencida), { ...cotizacion({ venceEn: enDias(-1) }), userRef: doc(bd, 'users/cliente') });
+  });
+  await assertFails(updateDoc(doc(cliente, vencida), rechaza));
+});
