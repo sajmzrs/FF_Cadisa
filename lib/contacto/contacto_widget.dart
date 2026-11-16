@@ -71,10 +71,19 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.arrow_back_rounded,
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            size: 24.0,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.safePop();
+                            },
+                            child: Icon(
+                              Icons.arrow_back_rounded,
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              size: 24.0,
+                            ),
                           ),
                           Text(
                             'Contactar a CADISA',
@@ -162,53 +171,82 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                wrapWithModel(
-                                  model: _model.contactCardModel1,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ContactCardWidget(
-                                    circleBg: Color(0x1A25A244),
-                                    icon: Icon(
-                                      Icons.chat_rounded,
-                                      color: Color(0xFF25A244),
-                                      size: 22.0,
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    await launchURL(
+                                        'https://wa.me/50683525530');
+                                  },
+                                  child: wrapWithModel(
+                                    model: _model.contactCardModel1,
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: ContactCardWidget(
+                                      circleBg: Color(0x1A25A244),
+                                      icon: Icon(
+                                        Icons.chat_rounded,
+                                        color: Color(0xFF25A244),
+                                        size: 22.0,
+                                      ),
+                                      iconColor: Color(0xFF25A244),
+                                      title: 'WhatsApp',
+                                      subtitle: '8352-5530',
                                     ),
-                                    iconColor: Color(0xFF25A244),
-                                    title: 'WhatsApp',
-                                    subtitle: '8352-5530',
                                   ),
                                 ),
-                                wrapWithModel(
-                                  model: _model.contactCardModel2,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ContactCardWidget(
-                                    circleBg: Color(0x1A2D6BB4),
-                                    icon: Icon(
-                                      Icons.call_rounded,
-                                      color:
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    await launchURL('tel:+50683100180');
+                                  },
+                                  child: wrapWithModel(
+                                    model: _model.contactCardModel2,
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: ContactCardWidget(
+                                      circleBg: Color(0x1A2D6BB4),
+                                      icon: Icon(
+                                        Icons.call_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 22.0,
+                                      ),
+                                      iconColor:
                                           FlutterFlowTheme.of(context).primary,
-                                      size: 22.0,
+                                      title: 'Llamar',
+                                      subtitle: '8310-0180',
                                     ),
-                                    iconColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                    title: 'Llamar',
-                                    subtitle: '8310-0180',
                                   ),
                                 ),
-                                wrapWithModel(
-                                  model: _model.contactCardModel3,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: ContactCardWidget(
-                                    circleBg: Color(0x1ABCB131),
-                                    icon: Icon(
-                                      Icons.mail_rounded,
-                                      color:
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    await launchURL(
+                                        'mailto:comercial@cadisacr.com');
+                                  },
+                                  child: wrapWithModel(
+                                    model: _model.contactCardModel3,
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: ContactCardWidget(
+                                      circleBg: Color(0x1ABCB131),
+                                      icon: Icon(
+                                        Icons.mail_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiary,
+                                        size: 22.0,
+                                      ),
+                                      iconColor:
                                           FlutterFlowTheme.of(context).tertiary,
-                                      size: 22.0,
+                                      title: 'Correo',
+                                      subtitle: 'comercial@cadisacr.com',
                                     ),
-                                    iconColor:
-                                        FlutterFlowTheme.of(context).tertiary,
-                                    title: 'Correo',
-                                    subtitle: 'comercial@cadisacr.com',
                                   ),
                                 ),
                               ].divide(SizedBox(height: 16.0)),
@@ -308,20 +346,60 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    wrapWithModel(
-                                      model: _model.faqRowModel1,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: FaqRowWidget(
-                                        question:
-                                            '¿Los productos son seguros para mascotas?',
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Si tenés mascotas, avisanos para indicarte las precauciones del servicio.',
+                                              style: TextStyle(),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                          ),
+                                        );
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.faqRowModel1,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: FaqRowWidget(
+                                          question:
+                                              '¿Los productos son seguros para mascotas?',
+                                        ),
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.faqRowModel2,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: FaqRowWidget(
-                                        question:
-                                            '¿Atienden fuera de San José?',
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Consultanos con tu dirección para confirmar la cobertura en tu zona.',
+                                              style: TextStyle(),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                          ),
+                                        );
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.faqRowModel2,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: FaqRowWidget(
+                                          question:
+                                              '¿Atienden fuera de San José?',
+                                        ),
                                       ),
                                     ),
                                   ],

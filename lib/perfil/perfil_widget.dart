@@ -334,18 +334,29 @@ class _PerfilWidgetState extends State<PerfilWidget> {
                                         last: false,
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.menuItemModel3,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: MenuItemWidget(
-                                        icon: Icon(
-                                          Icons.support_agent_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 22.0,
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed(
+                                            ContactoWidget.routeName);
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.menuItemModel3,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: MenuItemWidget(
+                                          icon: Icon(
+                                            Icons.support_agent_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 22.0,
+                                          ),
+                                          label: 'Contactar a CADISA',
+                                          last: false,
                                         ),
-                                        label: 'Contactar a CADISA',
-                                        last: false,
                                       ),
                                     ),
                                     wrapWithModel(
