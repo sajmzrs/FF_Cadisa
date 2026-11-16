@@ -2,11 +2,29 @@ const { readFileSync } = require('node:fs');
 const { resolve } = require('node:path');
 const { test, before, after } = require('node:test');
 const { initializeTestEnvironment, assertSucceeds, assertFails } = require('@firebase/rules-unit-testing');
-const { doc, setDoc, getDoc, updateDoc, deleteDoc, getDocs, collection, deleteField, Timestamp } = require('firebase/firestore');
+const { doc, setDoc, getDoc, updateDoc, deleteDoc, getDocs, collection, deleteField, Timestamp, query, where, serverTimestamp } = require('firebase/firestore');
 
 let entorno;
 const perfil = (uid, rol = 'cliente') => ({ uid, rol, email: `${uid}@example.test`, display_name: 'Prueba', created_time: Timestamp.now() });
 const db = (uid) => entorno.authenticatedContext(uid).firestore();
+const ahora = Date.now();
+const enDias = (dias) => Timestamp.fromMillis(ahora + dias * 86400000);
+const crearSolicitud = (bd, id, cambios = {}) => setDoc(doc(bd, 'solicitudes', id), {
+  codigo: `SOL-${id}`,
+  userRef: doc(bd, 'users/cliente'),
+  servicioRef: doc(bd, 'servicios/limpieza'),
+  servicioId: 'limpieza',
+  tipoInmueble: 'Residencial',
+  areaCantidad: 12.5,
+  direccion: 'San José, casa de prueba',
+  fotos: [],
+  cupoId: 'abierto',
+  fechaPreferida: enDias(1),
+  franja: 'manana',
+  estado: 'En revisión',
+  creadaEn: serverTimestamp(),
+  ...cambios,
+});
 before(async () => {
   entorno = await initializeTestEnvironment({
     projectId: 'demo-cadisa-reglas',
@@ -16,6 +34,11 @@ before(async () => {
     const datosPrueba = contexto.firestore();
     for (const uid of ['cliente', 'otro', 'admin']) {
       await setDoc(doc(datosPrueba, 'users', uid), perfil(uid, uid === 'admin' ? 'admin' : 'cliente'));
+    }
+    await setDoc(doc(datosPrueba, 'servicios/limpieza'), { activo: true });
+    await setDoc(doc(datosPrueba, 'servicios/inactivo'), { activo: false });
+    for (const [id, dias, disponible] of [['abierto', 1, true], ['cerrado', 2, false], ['pasado', -1, true], ['lejano', 15, true]]) {
+      await setDoc(doc(datosPrueba, 'disponibilidad', id), { inicio: enDias(dias), franja: 'manana', disponible });
     }
   });
 });
@@ -51,4 +74,59 @@ test('administrador no puede quitar su rol desde la app', () => assertFails(upda
 test('bloquea tipos de datos incorrectos', () => assertFails(updateDoc(doc(db('cliente'), 'users/cliente'), {phone_number: 88880000})));
 test('bloquea borrar el perfil propio', () => assertFails(deleteDoc(doc(db('cliente'), 'users/cliente'))));
 test('bloquea borrar perfiles ajenos como admin', () => assertFails(deleteDoc(doc(db('admin'), 'users/otro'))));
-test('bloquea colecciones todavía no autorizadas', () => assertFails(setDoc(doc(db('cliente'), 'solicitudes/prueba'), {userRef: 'cliente'})));
+test('bloquea colecciones todavía no autorizadas', () => assertFails(setDoc(doc(db('cliente'), 'calificaciones/prueba'), {userRef: 'cliente'})));
+
+test('catálogo solo lista servicios activos y autenticados', async () => {
+  const servicios = collection(db('cliente'), 'servicios');
+  await assertSucceeds(getDocs(query(servicios, where('activo', '==', true))));
+  await assertFails(getDocs(servicios));
+  await assertFails(getDoc(doc(entorno.unauthenticatedContext().firestore(), 'servicios/limpieza')));
+});
+
+test('cliente consulta disponibilidad pero no la modifica', async () => {
+  const cupo = doc(db('cliente'), 'disponibilidad/abierto');
+  await assertSucceeds(getDoc(cupo));
+  await assertFails(updateDoc(cupo, { disponible: false }));
+});
+
+test('cliente guarda su solicitud, consulta su historial y no puede duplicar el código', async () => {
+  const bd = db('cliente');
+  const id = 'solicitud00000000001';
+  const referencia = doc(bd, 'solicitudes', id);
+  await assertSucceeds(crearSolicitud(bd, id));
+  await assertSucceeds(getDoc(referencia));
+  await assertSucceeds(getDocs(query(collection(bd, 'solicitudes'), where('userRef', '==', doc(bd, 'users/cliente')))));
+  await assertFails(crearSolicitud(bd, id));
+  await assertFails(updateDoc(referencia, { estado: 'Confirmada' }));
+  await assertFails(getDoc(doc(db('otro'), 'solicitudes', id)));
+  await assertSucceeds(getDocs(collection(db('admin'), 'solicitudes')));
+});
+
+test('impide crear solicitudes ajenas, cotizadas o con servicio inactivo', async () => {
+  const bd = db('cliente');
+  const id = 'solicitud00000000002';
+  await assertFails(crearSolicitud(bd, id, { userRef: doc(bd, 'users/otro') }));
+  await assertFails(crearSolicitud(bd, id, { estado: 'Confirmada' }));
+  await assertFails(crearSolicitud(bd, id, { total: 11300 }));
+  await assertFails(crearSolicitud(bd, id, { servicioRef: doc(bd, 'servicios/inactivo'), servicioId: 'inactivo' }));
+  await assertFails(crearSolicitud(bd, id, { servicioRef: doc(bd, 'servicios/inactivo') }));
+});
+
+test('impide guardar una preferencia cerrada, pasada, fuera del rango o distinta al cupo', async () => {
+  const bd = db('cliente');
+  const id = 'solicitud00000000003';
+  await assertFails(crearSolicitud(bd, id, { cupoId: 'cerrado', fechaPreferida: enDias(2) }));
+  await assertFails(crearSolicitud(bd, id, { cupoId: 'pasado', fechaPreferida: enDias(-1) }));
+  await assertFails(crearSolicitud(bd, id, { cupoId: 'lejano', fechaPreferida: enDias(15) }));
+  await assertFails(crearSolicitud(bd, id, { franja: 'tarde' }));
+  await assertFails(crearSolicitud(bd, id, { fechaPreferida: enDias(2) }));
+});
+
+test('impide guardar un formulario incompleto o un código distinto al documento', async () => {
+  const bd = db('cliente');
+  const id = 'solicitud00000000004';
+  await assertFails(crearSolicitud(bd, id, { areaCantidad: 0 }));
+  await assertFails(crearSolicitud(bd, id, { direccion: '   ' }));
+  await assertFails(crearSolicitud(bd, id, { codigo: 'SOL-1047' }));
+  await assertFails(crearSolicitud(bd, id, { creadaEn: enDias(-1) }));
+});

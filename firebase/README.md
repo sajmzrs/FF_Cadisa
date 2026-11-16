@@ -23,3 +23,11 @@ reglas, ejecuta desde `firebase/` con Firebase CLI autorizado:
 ```sh
 firebase deploy --only firestore:rules --project cadisa-f0rzvq
 ```
+
+## Catálogo, solicitud y Agenda
+
+- `servicios`: el catálogo consulta con `activo == true`. Envía la referencia del documento al detalle y al formulario.
+- Formulario → Agenda: el formulario reemplaza `FFAppState().borradorAgenda` con `servicioRef`, `tipoInmueble` (`Residencial`, `Comercial` o `Industrial`), `areaCantidad`, `direccion`, `detalles` y hasta cinco rutas de fotos. El estado se guarda en memoria para que esos datos no aparezcan en la URL. Agenda realiza la única escritura al confirmar. Limpiar el borrador al enviar, iniciar otra solicitud o cerrar sesión.
+- `disponibilidad`: un documento por fecha y franja, con `inicio` como timestamp de las 08:00 o 13:00 de Costa Rica, `franja` (`manana` o `tarde`) y `disponible` booleano. CADISA publica las franjas de lunes a sábado. Consultar las próximas dos semanas y bloquear cualquier día sin franjas disponibles.
+- `solicitudes`: generar una referencia automática y mantenerla durante el intento de envío. Guardar `codigo` como `SOL-` seguido de ese ID, `userRef` de la sesión, `servicioId` derivado de `servicioRef.id`, `cupoId`, `fechaPreferida`, `franja`, los datos del borrador, estado `En revisión` y `creadaEn` del servidor. Mostrar la confirmación una vez completada la escritura. La preferencia no reserva una cuadrilla.
+- Seguimiento consulta por `userRef` del cliente. Un administrador puede leer todas las solicitudes. Los cambios de estado y las reglas de Storage para las fotos se agregarán con los flujos que los usan.
