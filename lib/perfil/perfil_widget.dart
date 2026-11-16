@@ -401,7 +401,7 @@ class _PerfilWidgetState extends State<PerfilWidget> {
                                   await authManager.signOut();
                                   GoRouter.of(context).clearRedirectLocation();
 
-                                  context.pushNamedAuth(
+                                  context.goNamedAuth(
                                       LoginWidget.routeName, context.mounted);
                                 },
                                 child: Container(

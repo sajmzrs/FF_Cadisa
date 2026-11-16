@@ -1,10 +1,44 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function esPropietario(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function esAdministrador() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('rol', '') == 'admin';
+    }
+
+    function perfilValido(datos) {
+      return datos.uid is string
+        && datos.get('email', '') is string
+        && datos.get('display_name', '') is string
+        && datos.get('phone_number', '') is string
+        && datos.get('photo_url', '') is string
+        && datos.get('cedula', '') is string
+        && datos.get('tipo', '') in ['', 'fisica', 'empresa']
+        && datos.get('rol', 'cliente') in ['cliente', 'admin'];
+    }
+
     match /users/{document} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null;
-      allow write: if request.auth.uid == document;
+      // FlutterFlow crea el perfil básico antes de completar el registro.
+      allow create: if esPropietario(document)
+        && request.resource.data.uid == document
+        && request.resource.data.keys().hasOnly([
+          'uid', 'email', 'display_name', 'phone_number', 'photo_url',
+          'created_time', 'cedula', 'tipo', 'rol'
+        ])
+        && request.resource.data.get('rol', 'cliente') == 'cliente'
+        && perfilValido(request.resource.data);
+      allow get: if esPropietario(document) || esAdministrador();
+      allow list: if esAdministrador();
+      allow update: if esPropietario(document)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'email', 'display_name', 'phone_number', 'photo_url', 'cedula', 'tipo', 'rol'
+        ])
+        && request.resource.data.get('rol', 'cliente') == resource.data.get('rol', 'cliente')
+        && perfilValido(request.resource.data);
       allow delete: if false;
     }
   }

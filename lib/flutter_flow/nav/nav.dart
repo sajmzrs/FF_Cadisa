@@ -104,56 +104,67 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: InicioWidget.routeName,
           path: InicioWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => InicioWidget(),
         ),
         FFRoute(
           name: ServiciosWidget.routeName,
           path: ServiciosWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => ServiciosWidget(),
         ),
         FFRoute(
           name: ServicioDetalleWidget.routeName,
           path: ServicioDetalleWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => ServicioDetalleWidget(),
         ),
         FFRoute(
           name: SolicitarCotizacionWidget.routeName,
           path: SolicitarCotizacionWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SolicitarCotizacionWidget(),
         ),
         FFRoute(
           name: AgendarServicioWidget.routeName,
           path: AgendarServicioWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => AgendarServicioWidget(),
         ),
         FFRoute(
           name: SolicitudEnviadaWidget.routeName,
           path: SolicitudEnviadaWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SolicitudEnviadaWidget(),
         ),
         FFRoute(
           name: SolicitudesWidget.routeName,
           path: SolicitudesWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SolicitudesWidget(),
         ),
         FFRoute(
           name: NotificacionesWidget.routeName,
           path: NotificacionesWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => NotificacionesWidget(),
         ),
         FFRoute(
           name: AdminCotizarWidget.routeName,
           path: AdminCotizarWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => AdminCotizarWidget(),
         ),
         FFRoute(
           name: CalificarServicioWidget.routeName,
           path: CalificarServicioWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => CalificarServicioWidget(),
         ),
         FFRoute(
           name: PerfilWidget.routeName,
           path: PerfilWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => PerfilWidget(),
         ),
         FFRoute(
@@ -164,11 +175,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: AdminPanelWidget.routeName,
           path: AdminPanelWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => AdminPanelWidget(),
         ),
         FFRoute(
           name: DetalleSolicitudWidget.routeName,
           path: DetalleSolicitudWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => DetalleSolicitudWidget(),
         ),
         FFRoute(

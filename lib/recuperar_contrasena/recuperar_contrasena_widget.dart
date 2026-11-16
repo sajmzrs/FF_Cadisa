@@ -397,7 +397,7 @@ class _RecuperarContrasenaWidgetState extends State<RecuperarContrasenaWidget> {
                             ),
                           ),
                         ),
-                        if (_model.enlaceEnviado ?? true)
+                        if (_model.enlaceEnviado == true)
                           Container(
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context)
