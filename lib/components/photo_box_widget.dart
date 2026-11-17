@@ -1,5 +1,9 @@
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'photo_box_model.dart';
 export 'photo_box_model.dart';
 
@@ -52,14 +56,14 @@ class _PhotoBoxWidgetState extends State<PhotoBoxWidget> {
       height: 72.0,
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
-          widget.bgColor,
+          widget!.bgColor,
           Color(0xFFEFF4DD),
         ),
         borderRadius: BorderRadius.circular(12.0),
         shape: BoxShape.rectangle,
       ),
       alignment: AlignmentDirectional(0.0, 0.0),
-      child: widget.icon!,
+      child: widget!.icon!,
     );
   }
 }

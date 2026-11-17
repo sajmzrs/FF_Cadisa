@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'info_box_model.dart';
 export 'info_box_model.dart';
 
@@ -64,10 +67,10 @@ class _InfoBoxWidgetState extends State<InfoBoxWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.icon!,
+              widget!.icon!,
               Text(
                 valueOrDefault<String>(
-                  widget.label,
+                  widget!.label,
                   'Duración',
                 ),
                 style: FlutterFlowTheme.of(context).labelSmall.override(
@@ -88,7 +91,7 @@ class _InfoBoxWidgetState extends State<InfoBoxWidget> {
               ),
               Text(
                 valueOrDefault<String>(
-                  widget.value,
+                  widget!.value,
                   '2 a 4 horas',
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(

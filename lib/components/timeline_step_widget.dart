@@ -1,6 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'timeline_step_model.dart';
 export 'timeline_step_model.dart';
 
@@ -57,7 +61,7 @@ class _TimelineStepWidgetState extends State<TimelineStepWidget> {
                   decoration: BoxDecoration(
                     color: valueOrDefault<Color>(
                       valueOrDefault<bool>(
-                        widget.completed,
+                        widget!.completed,
                         true,
                       )
                           ? FlutterFlowTheme.of(context).secondary
@@ -79,7 +83,7 @@ class _TimelineStepWidgetState extends State<TimelineStepWidget> {
               alignment: AlignmentDirectional(0.0, 0.0),
               child: Visibility(
                 visible: valueOrDefault<bool>(
-                  widget.completed,
+                  widget!.completed,
                   true,
                 ),
                 child: Icon(

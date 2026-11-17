@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'contact_card_model.dart';
 export 'contact_card_model.dart';
 
@@ -75,14 +78,14 @@ class _ContactCardWidgetState extends State<ContactCardWidget> {
                 height: 40.0,
                 decoration: BoxDecoration(
                   color: valueOrDefault<Color>(
-                    widget.circleBg,
+                    widget!.circleBg,
                     Color(0x1A25A244),
                   ),
                   borderRadius: BorderRadius.circular(9999.0),
                   shape: BoxShape.rectangle,
                 ),
                 alignment: AlignmentDirectional(0.0, 0.0),
-                child: widget.icon!,
+                child: widget!.icon!,
               ),
               Expanded(
                 flex: 1,
@@ -93,7 +96,7 @@ class _ContactCardWidgetState extends State<ContactCardWidget> {
                   children: [
                     Text(
                       valueOrDefault<String>(
-                        widget.title,
+                        widget!.title,
                         'WhatsApp',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -115,7 +118,7 @@ class _ContactCardWidgetState extends State<ContactCardWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.subtitle,
+                        widget!.subtitle,
                         '8352-5530',
                       ),
                       style: FlutterFlowTheme.of(context).bodySmall.override(

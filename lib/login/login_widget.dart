@@ -1,9 +1,15 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/components/cadisa_input_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' hide Type;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -153,25 +159,34 @@ class _LoginWidgetState extends State<LoginWidget> {
                       isPassword: true,
                     ),
                   ),
-                  Container(
-                    alignment: AlignmentDirectional(1.0, 0.0),
-                    child: Text(
-                      '¿Olvidaste tu contraseña?',
-                      style: FlutterFlowTheme.of(context).labelLarge.override(
-                            font: GoogleFonts.rosario(
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      context.pushNamed(RecuperarContrasenaWidget.routeName);
+                    },
+                    child: Container(
+                      alignment: AlignmentDirectional(1.0, 0.0),
+                      child: Text(
+                        '¿Olvidaste tu contraseña?',
+                        style: FlutterFlowTheme.of(context).labelLarge.override(
+                              font: GoogleFonts.rosario(
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelLarge
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).primary,
+                              letterSpacing: 0.0,
                               fontWeight: FontWeight.w600,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .labelLarge
                                   .fontStyle,
+                              lineHeight: 1.4,
                             ),
-                            color: FlutterFlowTheme.of(context).primary,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .labelLarge
-                                .fontStyle,
-                            lineHeight: 1.4,
-                          ),
+                      ),
                     ),
                   ),
                 ].divide(SizedBox(height: 16.0)),
@@ -190,7 +205,54 @@ class _LoginWidgetState extends State<LoginWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.pushNamed(InicioWidget.routeName);
+                          if (((_model.cadisaInputModel1.textFieldTextController
+                                          ?.text ??
+                                      "")
+                                  .trim()
+                                  .isEmpty ||
+                              (_model.cadisaInputModel2
+                                          .passwordFieldTextController?.text ??
+                                      "")
+                                  .isEmpty)!) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Completá correo y contraseña',
+                                  style: TextStyle(),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                              ),
+                            );
+                          } else {
+                            GoRouter.of(context).prepareAuthEvent();
+
+                            final user = await authManager.signInWithEmail(
+                              context,
+                              ((_model.cadisaInputModel1.textFieldTextController
+                                          ?.text ??
+                                      "")
+                                  .trim())!,
+                              (_model.cadisaInputModel2
+                                      .passwordFieldTextController?.text ??
+                                  "")!,
+                            );
+                            if (user == null) {
+                              return;
+                            }
+
+                            _model.loggedInUserDoc =
+                                await UsersRecord.getDocumentOnce(
+                                    currentUserReference!);
+                            if (_model.loggedInUserDoc?.rol == 'admin') {
+                              context.pushNamedAuth(
+                                  AdminPanelWidget.routeName, context.mounted);
+                            } else {
+                              context.pushNamedAuth(
+                                  InicioWidget.routeName, context.mounted);
+                            }
+                          }
+
+                          safeSetState(() {});
                         },
                         child: Container(
                           height: 52.0,

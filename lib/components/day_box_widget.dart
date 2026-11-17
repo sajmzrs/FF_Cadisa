@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'day_box_model.dart';
 export 'day_box_model.dart';
 
@@ -56,7 +59,7 @@ class _DayBoxWidgetState extends State<DayBoxWidget> {
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
           valueOrDefault<bool>(
-            widget.selected,
+            widget!.selected,
             false,
           )
               ? FlutterFlowTheme.of(context).primary
@@ -68,7 +71,7 @@ class _DayBoxWidgetState extends State<DayBoxWidget> {
         border: Border.all(
           color: valueOrDefault<Color>(
             valueOrDefault<bool>(
-              widget.selected,
+              widget!.selected,
               false,
             )
                 ? FlutterFlowTheme.of(context).primary
@@ -86,7 +89,7 @@ class _DayBoxWidgetState extends State<DayBoxWidget> {
         children: [
           Text(
             valueOrDefault<String>(
-              widget.weekday,
+              widget!.weekday,
               'L',
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -98,7 +101,7 @@ class _DayBoxWidgetState extends State<DayBoxWidget> {
                   ),
                   color: valueOrDefault<Color>(
                     valueOrDefault<bool>(
-                      widget.selected,
+                      widget!.selected,
                       false,
                     )
                         ? Color(0xCCFFFFFF)
@@ -115,7 +118,7 @@ class _DayBoxWidgetState extends State<DayBoxWidget> {
           ),
           Text(
             valueOrDefault<String>(
-              widget.day,
+              widget!.day,
               '12',
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -127,12 +130,12 @@ class _DayBoxWidgetState extends State<DayBoxWidget> {
                   color: valueOrDefault<Color>(
                     () {
                       if (valueOrDefault<bool>(
-                        widget.selected,
+                        widget!.selected,
                         false,
                       )) {
                         return Colors.white;
                       } else if (valueOrDefault<bool>(
-                        widget.disabled,
+                        widget!.disabled,
                         false,
                       )) {
                         return Color(0x667A7E72);

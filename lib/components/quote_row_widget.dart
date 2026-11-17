@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'quote_row_model.dart';
 export 'quote_row_model.dart';
 
@@ -56,7 +59,7 @@ class _QuoteRowWidgetState extends State<QuoteRowWidget> {
         children: [
           Text(
             valueOrDefault<String>(
-              widget.label,
+              widget!.label,
               'Lavado de alfombras (35 m²)',
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -76,7 +79,7 @@ class _QuoteRowWidgetState extends State<QuoteRowWidget> {
           ),
           Text(
             valueOrDefault<String>(
-              widget.amount,
+              widget!.amount,
               '₡55 752',
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -87,7 +90,7 @@ class _QuoteRowWidgetState extends State<QuoteRowWidget> {
                   ),
                   color: valueOrDefault<Color>(
                     valueOrDefault<bool>(
-                      widget.isTotal,
+                      widget!.isTotal,
                       false,
                     )
                         ? FlutterFlowTheme.of(context).primary

@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'toggle_option_model.dart';
 export 'toggle_option_model.dart';
 
@@ -51,7 +54,7 @@ class _ToggleOptionWidgetState extends State<ToggleOptionWidget> {
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
           valueOrDefault<bool>(
-            widget.isSelected,
+            widget!.isSelected,
             true,
           )
               ? Color(0xFFE6EEF8)
@@ -63,7 +66,7 @@ class _ToggleOptionWidgetState extends State<ToggleOptionWidget> {
         border: Border.all(
           color: valueOrDefault<Color>(
             valueOrDefault<bool>(
-              widget.isSelected,
+              widget!.isSelected,
               true,
             )
                 ? FlutterFlowTheme.of(context).primary
@@ -80,13 +83,13 @@ class _ToggleOptionWidgetState extends State<ToggleOptionWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (valueOrDefault<bool>(
-            widget.isSelected,
+            widget!.isSelected,
             true,
           ))
-            widget.iconName!,
+            widget!.iconName!,
           Text(
             valueOrDefault<String>(
-              widget.label,
+              widget!.label,
               'Persona física',
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -98,7 +101,7 @@ class _ToggleOptionWidgetState extends State<ToggleOptionWidget> {
                   ),
                   color: valueOrDefault<Color>(
                     valueOrDefault<bool>(
-                      widget.isSelected,
+                      widget!.isSelected,
                       true,
                     )
                         ? FlutterFlowTheme.of(context).primary

@@ -1,7 +1,9 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'status_pill2_model.dart';
 export 'status_pill2_model.dart';
 
@@ -47,7 +49,7 @@ class _StatusPill2WidgetState extends State<StatusPill2Widget> {
     return Container(
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
-          widget.bgColor,
+          widget!.bgColor,
           Color(0xFFF6F1D5),
         ),
         borderRadius: BorderRadius.circular(8.0),
@@ -58,7 +60,7 @@ class _StatusPill2WidgetState extends State<StatusPill2Widget> {
         child: Container(
           child: Text(
             valueOrDefault<String>(
-              widget.label,
+              widget!.label,
               'En revisión',
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(

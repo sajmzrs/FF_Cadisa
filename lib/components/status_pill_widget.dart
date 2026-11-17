@@ -1,7 +1,9 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'status_pill_model.dart';
 export 'status_pill_model.dart';
 
@@ -49,7 +51,7 @@ class _StatusPillWidgetState extends State<StatusPillWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.bgColor,
+        color: widget!.bgColor,
         borderRadius: BorderRadius.circular(20.0),
         shape: BoxShape.rectangle,
       ),
@@ -57,14 +59,14 @@ class _StatusPillWidgetState extends State<StatusPillWidget> {
         padding: EdgeInsetsDirectional.fromSTEB(4.0, 10.0, 4.0, 10.0),
         child: Container(
           child: Text(
-            widget.label,
+            widget!.label,
             style: FlutterFlowTheme.of(context).bodyMedium.override(
                   font: GoogleFonts.rosario(
                     fontWeight: FontWeight.w600,
                     fontStyle:
                         FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                   ),
-                  color: widget.textColor,
+                  color: widget!.textColor,
                   fontSize: 12.0,
                   letterSpacing: 0.0,
                   fontWeight: FontWeight.w600,

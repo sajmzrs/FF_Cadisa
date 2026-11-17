@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'request_card2_model.dart';
 export 'request_card2_model.dart';
 
@@ -83,7 +86,7 @@ class _RequestCard2WidgetState extends State<RequestCard2Widget> {
                     flex: 1,
                     child: Text(
                       valueOrDefault<String>(
-                        widget.code,
+                        widget!.code,
                         'SOL-1047',
                       ),
                       maxLines: 1,
@@ -121,7 +124,7 @@ class _RequestCard2WidgetState extends State<RequestCard2Widget> {
                       child: Container(
                         child: Text(
                           valueOrDefault<String>(
-                            widget.status,
+                            widget!.status,
                             'En revisión',
                           ),
                           style: FlutterFlowTheme.of(context)
@@ -155,7 +158,7 @@ class _RequestCard2WidgetState extends State<RequestCard2Widget> {
                 children: [
                   Text(
                     valueOrDefault<String>(
-                      widget.client,
+                      widget!.client,
                       'Soda La Esquina',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -176,7 +179,7 @@ class _RequestCard2WidgetState extends State<RequestCard2Widget> {
                   ),
                   Text(
                     valueOrDefault<String>(
-                      widget.service,
+                      widget!.service,
                       'Equipos de cocina industrial',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -224,7 +227,7 @@ class _RequestCard2WidgetState extends State<RequestCard2Widget> {
                       ),
                       Text(
                         valueOrDefault<String>(
-                          widget.date,
+                          widget!.date,
                           'mar 20 oct',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -266,7 +269,7 @@ class _RequestCard2WidgetState extends State<RequestCard2Widget> {
                           flex: 1,
                           child: Text(
                             valueOrDefault<String>(
-                              widget.location,
+                              widget!.location,
                               'Restaurante · Heredia centro',
                             ),
                             maxLines: 1,

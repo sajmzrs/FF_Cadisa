@@ -1,12 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 import '/index.dart';
 
@@ -76,13 +83,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? () : LoginWidget(),
+          appStateNotifier.loggedIn ? InicioWidget() : LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? () : LoginWidget(),
+              appStateNotifier.loggedIn ? InicioWidget() : LoginWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
@@ -97,56 +104,67 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: InicioWidget.routeName,
           path: InicioWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => InicioWidget(),
         ),
         FFRoute(
           name: ServiciosWidget.routeName,
           path: ServiciosWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => ServiciosWidget(),
         ),
         FFRoute(
           name: ServicioDetalleWidget.routeName,
           path: ServicioDetalleWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => ServicioDetalleWidget(),
         ),
         FFRoute(
           name: SolicitarCotizacionWidget.routeName,
           path: SolicitarCotizacionWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SolicitarCotizacionWidget(),
         ),
         FFRoute(
           name: AgendarServicioWidget.routeName,
           path: AgendarServicioWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => AgendarServicioWidget(),
         ),
         FFRoute(
           name: SolicitudEnviadaWidget.routeName,
           path: SolicitudEnviadaWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SolicitudEnviadaWidget(),
         ),
         FFRoute(
           name: SolicitudesWidget.routeName,
           path: SolicitudesWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => SolicitudesWidget(),
         ),
         FFRoute(
           name: NotificacionesWidget.routeName,
           path: NotificacionesWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => NotificacionesWidget(),
         ),
         FFRoute(
           name: AdminCotizarWidget.routeName,
           path: AdminCotizarWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => AdminCotizarWidget(),
         ),
         FFRoute(
           name: CalificarServicioWidget.routeName,
           path: CalificarServicioWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => CalificarServicioWidget(),
         ),
         FFRoute(
           name: PerfilWidget.routeName,
           path: PerfilWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => PerfilWidget(),
         ),
         FFRoute(
@@ -157,12 +175,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: AdminPanelWidget.routeName,
           path: AdminPanelWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => AdminPanelWidget(),
         ),
         FFRoute(
           name: DetalleSolicitudWidget.routeName,
           path: DetalleSolicitudWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => DetalleSolicitudWidget(),
+        ),
+        FFRoute(
+          name: RecuperarContrasenaWidget.routeName,
+          path: RecuperarContrasenaWidget.routePath,
+          builder: (context, params) => RecuperarContrasenaWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -281,6 +306,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    List<String>? collectionNamePath,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -298,6 +324,7 @@ class FFParameters {
       param,
       type,
       isList,
+      collectionNamePath: collectionNamePath,
     );
   }
 }

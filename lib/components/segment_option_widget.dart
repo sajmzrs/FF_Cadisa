@@ -1,7 +1,9 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'segment_option_model.dart';
 export 'segment_option_model.dart';
 
@@ -49,7 +51,7 @@ class _SegmentOptionWidgetState extends State<SegmentOptionWidget> {
       decoration: BoxDecoration(
         color: valueOrDefault<Color>(
           valueOrDefault<bool>(
-            widget.selected,
+            widget!.selected,
             true,
           )
               ? Color(0xFFE6EEF8)
@@ -61,7 +63,7 @@ class _SegmentOptionWidgetState extends State<SegmentOptionWidget> {
         border: Border.all(
           color: valueOrDefault<Color>(
             valueOrDefault<bool>(
-              widget.selected,
+              widget!.selected,
               true,
             )
                 ? FlutterFlowTheme.of(context).primary
@@ -74,7 +76,7 @@ class _SegmentOptionWidgetState extends State<SegmentOptionWidget> {
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Text(
         valueOrDefault<String>(
-          widget.label,
+          widget!.label,
           'Residencial',
         ),
         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -84,7 +86,7 @@ class _SegmentOptionWidgetState extends State<SegmentOptionWidget> {
               ),
               color: valueOrDefault<Color>(
                 valueOrDefault<bool>(
-                  widget.selected,
+                  widget!.selected,
                   true,
                 )
                     ? FlutterFlowTheme.of(context).primary

@@ -1,7 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'step_bar2_model.dart';
 export 'step_bar2_model.dart';
 
@@ -56,7 +59,7 @@ class _StepBar2WidgetState extends State<StepBar2Widget> {
           height: 4.0,
           decoration: BoxDecoration(
             color: valueOrDefault<Color>(
-              widget.color,
+              widget!.color,
               FlutterFlowTheme.of(context).secondary,
             ),
             borderRadius: BorderRadius.circular(9999.0),
@@ -65,7 +68,7 @@ class _StepBar2WidgetState extends State<StepBar2Widget> {
         ),
         Text(
           valueOrDefault<String>(
-            widget.label,
+            widget!.label,
             'Servicio',
           ),
           style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -75,7 +78,7 @@ class _StepBar2WidgetState extends State<StepBar2Widget> {
                   fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                 ),
                 color: valueOrDefault<Color>(
-                  widget.color,
+                  widget!.color,
                   FlutterFlowTheme.of(context).secondary,
                 ),
                 fontSize: 12.0,

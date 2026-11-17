@@ -21,3 +21,5 @@ export '/contacto/contacto_widget.dart' show ContactoWidget;
 export '/admin_panel/admin_panel_widget.dart' show AdminPanelWidget;
 export '/detalle_solicitud/detalle_solicitud_widget.dart'
     show DetalleSolicitudWidget;
+export '/recuperar_contrasena/recuperar_contrasena_widget.dart'
+    show RecuperarContrasenaWidget;

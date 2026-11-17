@@ -1,9 +1,14 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/components/menu_item_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'perfil_model.dart';
 export 'perfil_model.dart';
 
@@ -357,66 +362,95 @@ class _PerfilWidgetState extends State<PerfilWidget> {
                                         last: false,
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.menuItemModel5,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: MenuItemWidget(
-                                        icon: Icon(
-                                          Icons.lock_outline_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 22.0,
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed(
+                                            RecuperarContrasenaWidget
+                                                .routeName);
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.menuItemModel5,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: MenuItemWidget(
+                                          icon: Icon(
+                                            Icons.lock_outline_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 22.0,
+                                          ),
+                                          label: 'Cambiar contraseña',
+                                          last: true,
                                         ),
-                                        label: 'Cambiar contraseña',
-                                        last: true,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Container(
-                                child: Padding(
-                                  padding: EdgeInsets.all(24.0),
-                                  child: Container(
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  GoRouter.of(context).prepareAuthEvent();
+                                  await authManager.signOut();
+                                  GoRouter.of(context).clearRedirectLocation();
+
+                                  context.goNamedAuth(
+                                      LoginWidget.routeName, context.mounted);
+                                },
+                                child: Container(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(24.0),
                                     child: Container(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.logout_rounded,
-                                            color: Color(0xFFB3261E),
-                                            size: 20.0,
-                                          ),
-                                          Text(
-                                            'Cerrar sesión',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyLarge
-                                                .override(
-                                                  font: GoogleFonts.rosario(
+                                      child: Container(
+                                        alignment:
+                                            AlignmentDirectional(0.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.logout_rounded,
+                                              color: Color(0xFFB3261E),
+                                              size: 20.0,
+                                            ),
+                                            Text(
+                                              'Cerrar sesión',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyLarge
+                                                  .override(
+                                                    font: GoogleFonts.rosario(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyLarge
+                                                              .fontStyle,
+                                                    ),
+                                                    color: Color(0xFFB3261E),
+                                                    letterSpacing: 0.0,
                                                     fontWeight: FontWeight.bold,
                                                     fontStyle:
                                                         FlutterFlowTheme.of(
                                                                 context)
                                                             .bodyLarge
                                                             .fontStyle,
+                                                    lineHeight: 1.4,
                                                   ),
-                                                  color: Color(0xFFB3261E),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyLarge
-                                                          .fontStyle,
-                                                  lineHeight: 1.4,
-                                                ),
-                                          ),
-                                        ].divide(SizedBox(width: 8.0)),
+                                            ),
+                                          ].divide(SizedBox(width: 8.0)),
+                                        ),
                                       ),
                                     ),
                                   ),
