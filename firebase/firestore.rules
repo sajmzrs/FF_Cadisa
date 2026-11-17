@@ -10,6 +10,82 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('rol', '') == 'admin';
     }
 
+    function solicitudPropia(datos) {
+      return request.auth != null
+        && datos.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+
+    function servicioDisponible(datos) {
+      let servicio = /databases/$(database)/documents/servicios/$(datos.servicioId);
+      return datos.servicioRef == servicio
+        && get(servicio).data.activo == true;
+    }
+
+    function franjaDisponible(datos) {
+      let cupo = get(/databases/$(database)/documents/disponibilidad/$(datos.cupoId)).data;
+      return cupo.disponible == true
+        && cupo.inicio == datos.fechaPreferida
+        && cupo.franja == datos.franja
+        && datos.fechaPreferida > request.time
+        && datos.fechaPreferida <= request.time + duration.value(14, 'd');
+    }
+
+    function solicitudNuevaValida(datos, id) {
+      return datos.keys().hasOnly([
+          'codigo', 'userRef', 'servicioRef', 'servicioId', 'tipoInmueble',
+          'areaCantidad', 'direccion', 'detalles', 'fotos', 'cupoId',
+          'fechaPreferida', 'franja', 'estado', 'creadaEn'
+        ])
+        && id.matches('^[A-Za-z0-9]{20}$')
+        && datos.codigo == 'SOL-' + id
+        && datos.estado == 'En revisión'
+        && datos.creadaEn == request.time
+        && datos.servicioId is string
+        && datos.cupoId is string
+        && datos.tipoInmueble in ['Residencial', 'Comercial', 'Industrial']
+        && datos.areaCantidad is number
+        && datos.areaCantidad > 0 && datos.areaCantidad < 1000000000
+        && datos.direccion is string && datos.direccion.matches('.*\\S.*')
+        && datos.get('detalles', '') is string
+        && datos.get('fotos', []) is list && datos.get('fotos', []).size() <= 5
+        && datos.fechaPreferida is timestamp
+        && datos.franja in ['manana', 'tarde']
+        && servicioDisponible(datos)
+        && franjaDisponible(datos);
+    }
+
+    function cotizacionValida(antes, despues) {
+      return antes.estado == 'En revisión'
+        && despues.estado == 'Cotización lista'
+        && despues.diff(antes).affectedKeys().hasOnly([
+          'estado', 'montoSinIva', 'iva', 'total', 'notaAdmin', 'cotizadaEn', 'venceEn'
+        ])
+        && despues.montoSinIva is int && despues.montoSinIva > 0
+        && despues.montoSinIva <= 100000000
+        && despues.iva is int && despues.iva >= 0
+        && despues.iva * 100 - despues.montoSinIva * 13 >= -49
+        && despues.iva * 100 - despues.montoSinIva * 13 <= 50
+        && despues.total == despues.montoSinIva + despues.iva
+        && despues.notaAdmin is string && despues.notaAdmin.size() <= 1200
+        && despues.cotizadaEn == request.time
+        && despues.venceEn is timestamp
+        && despues.venceEn > request.time
+        && despues.venceEn <= request.time + duration.value(30, 'd');
+    }
+
+    function respuestaValida(antes, despues) {
+      return antes.estado == 'Cotización lista'
+        && antes.venceEn > request.time
+        && despues.respondidaEn == request.time
+        && despues.diff(antes).affectedKeys().hasOnly([
+          'estado', 'respondidaEn', 'motivoRechazo'
+        ])
+        && ((despues.estado == 'Confirmada' && !('motivoRechazo' in despues))
+          || (despues.estado == 'Cancelada'
+            && despues.get('motivoRechazo', '') is string
+            && despues.get('motivoRechazo', '').size() <= 500));
+    }
+
     function perfilValido(datos) {
       return datos.uid is string
         && datos.get('email', '') is string
@@ -40,6 +116,24 @@ service cloud.firestore {
         && request.resource.data.get('rol', 'cliente') == resource.data.get('rol', 'cliente')
         && perfilValido(request.resource.data);
       allow delete: if false;
+    }
+
+    match /servicios/{id} {
+      allow read: if request.auth != null && resource.data.activo == true;
+    }
+
+    match /disponibilidad/{id} {
+      allow read: if request.auth != null;
+    }
+
+    match /solicitudes/{id} {
+      allow create: if solicitudPropia(request.resource.data)
+        && solicitudNuevaValida(request.resource.data, id);
+      allow read: if solicitudPropia(resource.data) || esAdministrador();
+      allow update: if (esAdministrador()
+          && cotizacionValida(resource.data, request.resource.data))
+        || (solicitudPropia(resource.data)
+          && respuestaValida(resource.data, request.resource.data));
     }
   }
 }

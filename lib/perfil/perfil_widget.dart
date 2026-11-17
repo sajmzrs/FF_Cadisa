@@ -320,18 +320,29 @@ class _PerfilWidgetState extends State<PerfilWidget> {
                                         last: false,
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.menuItemModel2,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: MenuItemWidget(
-                                        icon: Icon(
-                                          Icons.notifications_outlined,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 22.0,
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed(
+                                            NotificacionesWidget.routeName);
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.menuItemModel2,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: MenuItemWidget(
+                                          icon: Icon(
+                                            Icons.notifications_outlined,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 22.0,
+                                          ),
+                                          label: 'Notificaciones',
+                                          last: false,
                                         ),
-                                        label: 'Notificaciones',
-                                        last: false,
                                       ),
                                     ),
                                     InkWell(
@@ -359,18 +370,29 @@ class _PerfilWidgetState extends State<PerfilWidget> {
                                         ),
                                       ),
                                     ),
-                                    wrapWithModel(
-                                      model: _model.menuItemModel4,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: MenuItemWidget(
-                                        icon: Icon(
-                                          Icons.receipt_long_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 22.0,
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed(
+                                            SolicitudesWidget.routeName);
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.menuItemModel4,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: MenuItemWidget(
+                                          icon: Icon(
+                                            Icons.receipt_long_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 22.0,
+                                          ),
+                                          label: 'Historial de servicios',
+                                          last: false,
                                         ),
-                                        label: 'Historial de servicios',
-                                        last: false,
                                       ),
                                     ),
                                     InkWell(

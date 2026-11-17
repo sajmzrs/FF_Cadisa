@@ -3,6 +3,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +12,13 @@ import 'solicitud_enviada_model.dart';
 export 'solicitud_enviada_model.dart';
 
 class SolicitudEnviadaWidget extends StatefulWidget {
-  const SolicitudEnviadaWidget({super.key});
+  const SolicitudEnviadaWidget({
+    super.key,
+    this.codigo,
+  });
+
+  /// Edit DSL param codigo
+  final String? codigo;
 
   static String routeName = 'SolicitudEnviada';
   static String routePath = '/solicitudEnviada';
@@ -101,92 +109,9 @@ class _SolicitudEnviadaWidgetState extends State<SolicitudEnviadaWidget> {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 110.0,
-                      height: 110.0,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFEFF4DD),
-                        borderRadius: BorderRadius.circular(9999.0),
-                        shape: BoxShape.rectangle,
-                      ),
-                      alignment: AlignmentDirectional(0.0, 0.0),
-                      child: Icon(
-                        Icons.check_rounded,
-                        color: FlutterFlowTheme.of(context).secondary,
-                        size: 56.0,
-                      ),
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '¡Solicitud enviada!',
-                          textAlign: TextAlign.center,
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                font: GoogleFonts.rosario(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 24.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                                lineHeight: 1.4,
-                              ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 20.0, 0.0),
-                            child: Container(
-                              child: Text(
-                                'Tu número de solicitud es SOL-1048. Te enviaremos la cotización en un plazo máximo de 24 horas hábiles.',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.rosario(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                      lineHeight: 1.5,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ].divide(SizedBox(height: 16.0)),
-                    ),
-                  ].divide(SizedBox(height: 24.0)),
+              Container(
+                child: custom_widgets.FlujoSolicitudes(
+                  modo: 'confirmacion',
                 ),
               ),
               Column(
@@ -194,31 +119,40 @@ class _SolicitudEnviadaWidgetState extends State<SolicitudEnviadaWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      context.goNamed(InicioWidget.routeName);
+                    },
+                    child: Container(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Container(
-                          alignment: AlignmentDirectional(0.0, 0.0),
-                          child: Text(
-                            'Volver al inicio',
-                            style: FlutterFlowTheme.of(context)
-                                .labelLarge
-                                .override(
-                                  font: GoogleFonts.rosario(
+                          child: Container(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: Text(
+                              'Volver al inicio',
+                              style: FlutterFlowTheme.of(context)
+                                  .labelLarge
+                                  .override(
+                                    font: GoogleFonts.rosario(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelLarge
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .fontStyle,
+                                    lineHeight: 1.4,
                                   ),
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .labelLarge
-                                      .fontStyle,
-                                  lineHeight: 1.4,
-                                ),
+                            ),
                           ),
                         ),
                       ),
