@@ -1,10 +1,11 @@
-import '/components/photo_box_widget.dart';
 import '/components/segment_option_widget.dart';
 import '/components/step_bar_widget.dart';
+import '/flutter_flow/ff_builtin_enums.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,18 @@ import 'solicitar_cotizacion_model.dart';
 export 'solicitar_cotizacion_model.dart';
 
 class SolicitarCotizacionWidget extends StatefulWidget {
-  const SolicitarCotizacionWidget({super.key});
+  const SolicitarCotizacionWidget({
+    super.key,
+    String? servicioId,
+    String? servicioTitulo,
+  })  : this.servicioId = servicioId ?? '',
+        this.servicioTitulo = servicioTitulo ?? '';
+
+  /// Identificador del servicio seleccionado.
+  final String servicioId;
+
+  /// Nombre del servicio seleccionado.
+  final String servicioTitulo;
 
   static String routeName = 'SolicitarCotizacion';
   static String routePath = '/solicitarCotizacion';
@@ -32,6 +44,15 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SolicitarCotizacionModel());
+
+    _model.areaDelServicioTextController ??= TextEditingController();
+    _model.areaDelServicioFocusNode ??= FocusNode();
+
+    _model.direccionDelServicioTextController ??= TextEditingController();
+    _model.direccionDelServicioFocusNode ??= FocusNode();
+
+    _model.detallesDelServicioTextController ??= TextEditingController();
+    _model.detallesDelServicioFocusNode ??= FocusNode();
   }
 
   @override
@@ -53,7 +74,7 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           title: Text(
             'Solicitar cotización',
             style: FlutterFlowTheme.of(context).titleLarge.override(
@@ -167,35 +188,60 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                       lineHeight: 1.4,
                                     ),
                               ),
-                              Container(
-                                height: 52.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Color(0xFFE2E4DC),
-                                    width: 1.0,
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  context.pushNamed(ServiciosWidget.routeName);
+                                },
+                                child: Container(
+                                  height: 52.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Color(0xFFE2E4DC),
+                                      width: 1.0,
+                                    ),
                                   ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Lavado de alfombras',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.rosario(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    child: Container(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            widget!.servicioId == ''
+                                                ? 'Elegí un servicio del catálogo'
+                                                : widget!.servicioTitulo,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.rosario(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -206,29 +252,17 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                                               context)
                                                           .bodyMedium
                                                           .fontStyle,
+                                                  lineHeight: 1.4,
                                                 ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_drop_down_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 24.0,
-                                        ),
-                                      ],
+                                          ),
+                                          Icon(
+                                            Icons.arrow_drop_down_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 24.0,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -268,34 +302,70 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                 children: [
                                   Expanded(
                                     flex: 1,
-                                    child: wrapWithModel(
-                                      model: _model.segmentOptionModel1,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: SegmentOptionWidget(
-                                        selected: true,
-                                        label: 'Residencial',
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        _model.tipoInmueble = 'Residencial';
+                                        safeSetState(() {});
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.segmentOptionModel1,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: SegmentOptionWidget(
+                                          selected: _model.tipoInmueble ==
+                                              'Residencial',
+                                          label: 'Residencial',
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: wrapWithModel(
-                                      model: _model.segmentOptionModel2,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: SegmentOptionWidget(
-                                        selected: false,
-                                        label: 'Comercial',
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        _model.tipoInmueble = 'Comercial';
+                                        safeSetState(() {});
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.segmentOptionModel2,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: SegmentOptionWidget(
+                                          selected: _model.tipoInmueble ==
+                                              'Comercial',
+                                          label: 'Comercial',
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: wrapWithModel(
-                                      model: _model.segmentOptionModel3,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: SegmentOptionWidget(
-                                        selected: false,
-                                        label: 'Industrial',
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        _model.tipoInmueble = 'Industrial';
+                                        safeSetState(() {});
+                                      },
+                                      child: wrapWithModel(
+                                        model: _model.segmentOptionModel3,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: SegmentOptionWidget(
+                                          selected: _model.tipoInmueble ==
+                                              'Industrial',
+                                          label: 'Industrial',
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -329,6 +399,63 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                       lineHeight: 1.4,
                                     ),
                               ),
+                              TextFormField(
+                                controller:
+                                    _model.areaDelServicioTextController,
+                                focusNode: _model.areaDelServicioFocusNode,
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Ej. 35',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  filled: true,
+                                ),
+                                style: TextStyle(),
+                                maxLines: null,
+                                keyboardType:
+                                    (FFKeyboardType.number).flutterValue,
+                                validator: _model
+                                    .areaDelServicioTextControllerValidator
+                                    .asValidator(context),
+                              ),
                             ].divide(SizedBox(height: 4.0)),
                           ),
                           Column(
@@ -357,71 +484,60 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                       lineHeight: 1.4,
                                     ),
                               ),
-                              Container(
-                                height: 52.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Color(0xFFE2E4DC),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Casa · Curridabat, San José',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.rosario(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                                lineHeight: 1.4,
-                                              ),
-                                        ),
-                                        Icon(
-                                          Icons.location_on_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 20.0,
-                                        ),
-                                      ],
+                              TextFormField(
+                                controller:
+                                    _model.direccionDelServicioTextController,
+                                focusNode: _model.direccionDelServicioFocusNode,
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Provincia, cantón y señas',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
                                     ),
                                   ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  filled: true,
                                 ),
+                                style: TextStyle(),
+                                maxLines: null,
+                                validator: _model
+                                    .direccionDelServicioTextControllerValidator
+                                    .asValidator(context),
                               ),
                             ].divide(SizedBox(height: 4.0)),
                           ),
@@ -451,54 +567,60 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                       lineHeight: 1.4,
                                     ),
                               ),
-                              Container(
-                                height: 96.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Color(0xFFE2E4DC),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 12.0, 16.0, 12.0),
-                                  child: Container(
-                                    child: Text(
-                                      'Ej: alfombra de sala con manchas de café, hay mascotas en casa…',
-                                      maxLines: 3,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.rosario(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                            lineHeight: 1.4,
-                                          ),
+                              TextFormField(
+                                controller:
+                                    _model.detallesDelServicioTextController,
+                                focusNode: _model.detallesDelServicioFocusNode,
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Ej. Alfombra con manchas de café',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
                                     ),
                                   ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(4.0),
+                                      topRight: Radius.circular(4.0),
+                                    ),
+                                  ),
+                                  filled: true,
                                 ),
+                                style: TextStyle(),
+                                maxLines: 3,
+                                validator: _model
+                                    .detallesDelServicioTextControllerValidator
+                                    .asValidator(context),
                               ),
                             ].divide(SizedBox(height: 4.0)),
                           ),
@@ -528,61 +650,27 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                                       lineHeight: 1.4,
                                     ),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  wrapWithModel(
-                                    model: _model.photoBoxModel1,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: PhotoBoxWidget(
-                                      bgColor: Color(0xFFEFF4DD),
-                                      borderColor: Color(0x00000000),
-                                      icon: Icon(
-                                        Icons.image_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondary,
-                                        size: 28.0,
+                              Text(
+                                'Adjuntos pendientes de habilitar.',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .override(
+                                      font: GoogleFonts.rosario(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .fontStyle,
                                       ),
-                                      iconColor: FlutterFlowTheme.of(context)
-                                          .secondary,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .fontStyle,
                                     ),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.photoBoxModel2,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: PhotoBoxWidget(
-                                      bgColor: Color(0xFFEFF4DD),
-                                      borderColor: Color(0x00000000),
-                                      icon: Icon(
-                                        Icons.image_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondary,
-                                        size: 28.0,
-                                      ),
-                                      iconColor: FlutterFlowTheme.of(context)
-                                          .secondary,
-                                    ),
-                                  ),
-                                  wrapWithModel(
-                                    model: _model.photoBoxModel3,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: PhotoBoxWidget(
-                                      bgColor: Colors.transparent,
-                                      borderColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                      icon: Icon(
-                                        Icons.add_a_photo_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        size: 28.0,
-                                      ),
-                                      iconColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                    ),
-                                  ),
-                                ].divide(SizedBox(width: 16.0)),
                               ),
                             ].divide(SizedBox(height: 4.0)),
                           ),
@@ -591,7 +679,30 @@ class _SolicitarCotizacionWidgetState extends State<SolicitarCotizacionWidget> {
                       Container(
                         child: FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed(AgendarServicioWidget.routeName);
+                            _model.validacionDelBorrador =
+                                await actions.prepararBorradorAgenda(
+                              widget!.servicioId,
+                              _model.tipoInmueble,
+                              _model.areaDelServicioTextController.text,
+                              _model.direccionDelServicioTextController.text,
+                              _model.detallesDelServicioTextController.text,
+                            );
+                            if (_model.validacionDelBorrador == '') {
+                              context
+                                  .pushNamed(AgendarServicioWidget.routeName);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    _model.validacionDelBorrador!,
+                                    style: TextStyle(),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                ),
+                              );
+                            }
+
+                            safeSetState(() {});
                           },
                           text: 'Continuar',
                           options: FFButtonOptions(

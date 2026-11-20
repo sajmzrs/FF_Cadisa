@@ -118,13 +118,27 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: ServicioDetalleWidget.routeName,
           path: ServicioDetalleWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => ServicioDetalleWidget(),
+          builder: (context, params) => ServicioDetalleWidget(
+            servicioId: params.getParam(
+              'servicioId',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: SolicitarCotizacionWidget.routeName,
           path: SolicitarCotizacionWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => SolicitarCotizacionWidget(),
+          builder: (context, params) => SolicitarCotizacionWidget(
+            servicioId: params.getParam(
+              'servicioId',
+              ParamType.String,
+            ),
+            servicioTitulo: params.getParam(
+              'servicioTitulo',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: AgendarServicioWidget.routeName,
