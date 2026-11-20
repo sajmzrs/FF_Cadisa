@@ -212,8 +212,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  context.pushNamed(
-                                      SolicitarCotizacionWidget.routeName);
+                                  context.pushNamed(ServiciosWidget.routeName);
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -750,12 +749,36 @@ class _InicioWidgetState extends State<InicioWidget> {
                                               lineHeight: 1.4,
                                             ),
                                       ),
-                                      Text(
-                                        'Ver catálogo',
-                                        style: FlutterFlowTheme.of(context)
-                                            .labelLarge
-                                            .override(
-                                              font: GoogleFonts.rosario(
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              ServiciosWidget.routeName);
+                                        },
+                                        child: Text(
+                                          'Ver catálogo',
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge
+                                              .override(
+                                                font: GoogleFonts.rosario(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelLarge
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelLarge
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge
@@ -764,21 +787,9 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge
                                                         .fontStyle,
+                                                lineHeight: 1.4,
                                               ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelLarge
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelLarge
-                                                      .fontStyle,
-                                              lineHeight: 1.4,
-                                            ),
+                                        ),
                                       ),
                                     ],
                                   ),

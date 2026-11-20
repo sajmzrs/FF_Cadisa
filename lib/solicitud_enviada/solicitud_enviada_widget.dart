@@ -109,9 +109,12 @@ class _SolicitudEnviadaWidgetState extends State<SolicitudEnviadaWidget> {
                   ),
                 ),
               ),
-              Container(
-                child: custom_widgets.FlujoSolicitudes(
-                  modo: 'confirmacion',
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: custom_widgets.FlujoSolicitudes(
+                    modo: 'confirmacion',
+                  ),
                 ),
               ),
               Column(
